@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  dev-container:
+    user: dev
+    build:
+      context: .
+      dockerfile: ./development/Dockerfile
+    working_dir: /home/dev/terminal-on-steroids
+
+    volumes:
+      - ./:/home/dev/terminal-on-steroids
+      - ${HOME}/.docker_history:/home/dev/.zsh_history
+      - ${HOME}/.ssh:/home/dev/.ssh:ro
