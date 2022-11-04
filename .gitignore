@@ -1,0 +1,5 @@
+# for vscode
+.vscode
+
+# for jetbrains IDE's
+.idea
