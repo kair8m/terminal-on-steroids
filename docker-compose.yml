@@ -10,4 +10,5 @@ services:
     volumes:
       - ./:/home/dev/terminal-on-steroids
       - ${HOME}/.docker_history:/home/dev/.zsh_history
+      - ${HOME}/.docker_history:/home/dev/.bash_history
       - ${HOME}/.ssh:/home/dev/.ssh:ro
