@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-PYTHON_VERSION="3.10"
-
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 function linux_install() {
@@ -10,9 +8,9 @@ function linux_install() {
     validate_root_access_rights
 
     apt-get install software-properties-common -yy
-    add-apt-repository ppa:deadsnakes/ppa -yy
+    add-apt-repository ppa:neovim-ppa/unstable -yy
     apt-get update -yy
-    apt-get install python${PYTHON_VERSION} -yy
+    apt-get install neovim -yy
 }
 
 case "$OSTYPE" in
@@ -25,3 +23,4 @@ case "$OSTYPE" in
   solaris*) echo "Solaris" ;;
   *)        echo "unknown: $OSTYPE" ;;
 esac
+
