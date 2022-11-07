@@ -4,9 +4,15 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 function setup_zsh() {
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-    git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}"/plugins/zsh-autosuggestions
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git  "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}"/plugins/zsh-syntax-highlighting
-    git clone https://github.com/joshskidmore/zsh-fzf-history-search   "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}"/plugins/zsh-fzf-history-search
+    git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM:-${USER_HOME}/.oh-my-zsh/custom}"/plugins/zsh-autosuggestions
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git  "${ZSH_CUSTOM:-${USER_HOME}/.oh-my-zsh/custom}"/plugins/zsh-syntax-highlighting
+    git clone https://github.com/joshskidmore/zsh-fzf-history-search   "${ZSH_CUSTOM:-${USER_HOME}/.oh-my-zsh/custom}"/plugins/zsh-fzf-history-search
+    DOTFILES_DIR=$(realpath "$SCRIPT_DIR/../dotfiles")
+    cp -r "$DOTFILES_DIR/.zshrc" "$USER_HOME/.zshrc"
+    cp -r "$DOTFILES_DIR/.pythonrc" "$USER_HOME/.pythonrc"
+    cp -r "$DOTFILES_DIR/.gitconfig" "$USER_HOME/.gitconfig"
+    mkdir -p "$USER_HOME/.config"
+    cp -r "$DOTFILES_DIR/lazygit/config.yml" "$USER_HOME/.config/lazygit"
 }
 
 function setup_on_linux() {
@@ -29,10 +35,10 @@ function setup_on_linux() {
 
     apt-get install zsh -yy
 
-    mkdir -p "${HOME}"/.local/bin
+    mkdir -p "${USER_HOME}"/.local/bin
     
-    ln -s "$(which batcat)" "${HOME}"/.local/bin/bat
-    ln -s "$(which fdfind)" "${HOME}"/.local/bin/fd
+    ln -s "$(which batcat)" "${USER_HOME}"/.local/bin/bat
+    ln -s "$(which fdfind)" "${USER_HOME}"/.local/bin/fd
 }
 
 case "$OSTYPE" in
