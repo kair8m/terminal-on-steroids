@@ -16,6 +16,8 @@ function setup_on_linux() {
     rm -rf lazygit.tar.gz
 
     cd - || exit
+
+    apt-get install zsh -yy
 }
 
 case "$OSTYPE" in
