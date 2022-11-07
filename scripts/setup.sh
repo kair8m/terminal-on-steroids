@@ -2,11 +2,18 @@
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
+function setup_zsh() {
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}"/plugins/zsh-autosuggestions
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git  "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}"/plugins/zsh-syntax-highlighting
+    git clone https://github.com/joshskidmore/zsh-fzf-history-search   "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}"/plugins/zsh-fzf-history-search
+}
+
 function setup_on_linux() {
-    source $SCRIPT_DIR/check_linux_rights.sh
+    source "$SCRIPT_DIR"/check_linux_rights.sh
     validate_root_access_rights
     apt-get update -yy
-    apt-get install curl wget fzf ripgrep tmux make cmake g++ gcc build-essential zip unzip -yy
+    apt-get install curl wget fzf ripgrep tmux make cmake g++ gcc bat build-essential zip unzip dpkg -yy
 
     cd /tmp/ || exit
 
@@ -15,9 +22,17 @@ function setup_on_linux() {
     sudo tar xf lazygit.tar.gz -C /usr/local/bin lazygit
     rm -rf lazygit.tar.gz
 
+    wget https://github.com/dandavison/delta/releases/download/0.14.0/git-delta_0.14.0_amd64.deb
+    dpkg -i git-delta_0.14.0_amd64.deb
+    rm git-delta_0.14.0_amd64.deb -rf
     cd - || exit
 
     apt-get install zsh -yy
+
+    mkdir -p "${HOME}"/.local/bin
+    
+    ln -s "$(which batcat)" "${HOME}"/.local/bin/bat
+    ln -s "$(which fdfind)" "${HOME}"/.local/bin/fd
 }
 
 case "$OSTYPE" in
@@ -31,6 +46,8 @@ case "$OSTYPE" in
   *)        echo "unknown: $OSTYPE" ;;
 esac
 
-$SCRIPT_DIR/install_python.sh
-$SCRIPT_DIR/install_node.sh
-$SCRIPT_DIR/install_neovim.sh
+"$SCRIPT_DIR"/install_python.sh
+"$SCRIPT_DIR"/install_node.sh
+"$SCRIPT_DIR"/install_neovim.sh
+
+setup_zsh
