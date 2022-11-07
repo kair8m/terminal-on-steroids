@@ -13,7 +13,7 @@ function setup_on_linux() {
     source "$SCRIPT_DIR"/check_linux_rights.sh
     validate_root_access_rights
     apt-get update -yy
-    apt-get install curl wget fzf ripgrep tmux make cmake g++ gcc bat build-essential zip unzip dpkg -yy
+    apt-get install curl wget fzf ripgrep tmux make cmake g++ gcc bat build-essential zip unzip dpkg tmux -yy
 
     cd /tmp/ || exit
 
