@@ -1,16 +1,10 @@
 #!/usr/bin/env bash
 
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-
 function linux_install() {
-    source $SCRIPT_DIR/check_linux_rights.sh
-
-    validate_root_access_rights
-
-    apt-get install software-properties-common -yy
+    sudo apt-get install software-properties-common -yy
     add-apt-repository ppa:neovim-ppa/unstable -yy
-    apt-get update -yy
-    apt-get install neovim -yy
+    sudo apt-get update -yy
+    sudo apt-get install neovim -yy
 }
 
 case "$OSTYPE" in

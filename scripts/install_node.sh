@@ -1,16 +1,10 @@
 #!/usr/bin/env bash
 
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-
 function linux_install() {
-    source $SCRIPT_DIR/check_linux_rights.sh
-
-    validate_root_access_rights
-
-    apt-get install software-properties-common -yy
+    sudo apt-get install software-properties-common -yy
     curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-    apt-get update -yy
-    apt-get install nodejs -yy
+    sudo apt-get update -yy
+    sudo apt-get install nodejs -yy
 }
 
 case "$OSTYPE" in
