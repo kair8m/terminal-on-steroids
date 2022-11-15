@@ -24,6 +24,16 @@ function setup_zsh() {
     done
 }
 
+function setup_neovim() {
+    mkdir -p "$HOME/.config"
+    NVIM_DIR=$(realpath "$SCRIPT_DIR/../nvim")
+    cp -r "$NVIM_DIR" "$HOME/.config"
+    nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+    nvim --headless -c 'autocmd User PackerComplete quitall' -c 'TSUpdate'
+    nvim --headless -c 'autocmd User PackerComplete quitall' -c 'TSUpdateSync'
+
+}
+
 function setup_on_linux() {
     sudo apt-get update -yy
     sudo apt-get install curl wget fzf ripgrep tmux make cmake g++ gcc bat build-essential zip unzip dpkg tmux fd-find -yy
@@ -64,3 +74,4 @@ esac
 "$SCRIPT_DIR"/install_neovim.sh
 
 setup_zsh
+setup_neovim
