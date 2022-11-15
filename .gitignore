@@ -3,3 +3,6 @@
 
 # for jetbrains IDE's
 .idea
+
+# core files for Makefile
+core
