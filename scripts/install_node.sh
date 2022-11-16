@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
+echo "Installing latest nodejs version..."
+
 function linux_install() {
-    sudo apt-get install software-properties-common -yy
-    curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-    sudo apt-get update -yy
-    sudo apt-get install nodejs -yy
+    sudo apt-get install software-properties-common -yy > /dev/null
+    curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash - > /dev/null
+    sudo apt-get update -yy > /dev/null
+    sudo apt-get install nodejs -yy > /dev/null
 }
 
 case "$OSTYPE" in
