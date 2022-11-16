@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 
+echo "Installing neovim latest version..."
+
 function linux_install() {
-    sudo apt-get install software-properties-common -yy
-    add-apt-repository ppa:neovim-ppa/unstable -yy
-    sudo apt-get update -yy
-    sudo apt-get install neovim -yy
+    sudo apt-get install apt-utils software-properties-common -yy > /dev/null
+    sudo add-apt-repository ppa:neovim-ppa/unstable -yy > /dev/null
+    sudo apt-get update -yy > /dev/null
+    sudo apt-get upgrade -yy > /dev/null
+    sudo apt-get install neovim -yy > /dev/null
 }
 
 case "$OSTYPE" in
