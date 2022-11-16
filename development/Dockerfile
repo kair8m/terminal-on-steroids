@@ -6,7 +6,12 @@ RUN apt-get update -yy && apt-get install -yy \
     sudo \
     git \
     curl \
-    wget
+    wget \
+    cmake \
+    make \
+    g++ \
+    gcc \
+    apt-utils
 
 RUN adduser --disabled-password --gecos '' dev
 RUN adduser dev sudo
