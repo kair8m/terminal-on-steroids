@@ -2,11 +2,16 @@
 
 PYTHON_VERSION="3.10"
 
+echo "Installing python$PYTHON_VERSION..."
+
 function linux_install() {
-    sudo sudo apt-get install software-properties-common -yy
-    add-apt-repository ppa:deadsnakes/ppa -yy
-    sudo sudo apt-get update -yy
-    sudo sudo apt-get install python${PYTHON_VERSION} -yy
+    sudo sudo apt-get install software-properties-common -yy > /dev/null
+    sudo add-apt-repository ppa:deadsnakes/ppa -yy > /dev/null
+    sudo sudo apt-get update -yy > /dev/null
+    sudo sudo apt-get install python${PYTHON_VERSION} -yy > /dev/null
+    wget https://bootstrap.pypa.io/get-pip.py
+    python$PYTHON_VERSION get-pip.py
+
 }
 
 case "$OSTYPE" in
