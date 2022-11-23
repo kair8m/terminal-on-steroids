@@ -18,11 +18,6 @@ function setup_zsh() {
     cp -r "$DOTFILES_DIR/lazygit/config.yml" "$HOME/.config/lazygit/"
     mkdir -p "$HOME/.config/dotfiles"
     cp -r "$DOTFILES_DIR/"*.sh "$HOME/.config/dotfiles/"
-    shell_scripts="$HOME/.config/dotfiles/*.sh"
-    for shell_script in $shell_scripts
-    do
-        echo "source $shell_script" >> "$HOME/.zshrc"
-    done
 }
 
 function setup_neovim() {
