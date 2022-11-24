@@ -1,0 +1,86 @@
+#!/bin/sh
+#
+# @(#)$Id: hdrguard.sh,v 1.8 2016/05/09 18:41:57 jleffler Exp $
+#
+# Generate #ifndef sequence to guard header against multiple inclusion
+
+arg0=$(basename $0 .sh)
+
+usestr="Usage: $arg0 [-bdfhimV] header.h [...]"
+
+usage()
+{
+    echo "$usestr" 1>&2
+    exit 1
+}
+
+help()
+{
+    echo "$usestr"
+    echo
+    echo "  -b  Use base name of file for guard"
+    echo "  -d  Use _DOT_H after name (instead of _H)"
+    echo "  -f  Use specified path name of file for guard (default)"
+    echo "  -h  Print this help message and exit"
+    echo "  -i  Omit _INCLUDED after name"
+    echo "  -m  Generate MD5 hash value as header guard"
+    echo "  -V  Print version information and exit"
+    exit 0
+}
+
+opt_incl=yes
+opt_base=no
+opt_dot=no
+opt_md5=no
+while getopts bdfhimV opt
+do
+    case "$opt" in
+    (b) opt_base=yes;;
+    (d) opt_dot=yes;;
+    (f) opt_base=no;;
+    (h) help;;
+    (i) opt_incl=no;;
+    (m) opt_md5=yes;;
+    (V) echo "$arg0: HDRGUARD Version "'$Revision: 1.8 $ ($Date: 2016/05/09 18:41:57 $)' | rcsmunger; exit 0;;
+    (*) usage;;
+    esac
+done
+
+shift $(($OPTIND - 1))
+
+[ $# -eq 0 ] && usage
+
+for i in "$@"
+do
+    if [ $opt_base = yes ]
+    then i=$(basename $i)
+    fi
+    if [ $opt_dot = yes ]
+    then i=$(echo "$i" | sed 's/\.h$/_dot_h/')
+    fi
+    i=$(echo $i | tr 'a-z' 'A-Z' | tr -s '/+.-' '____' | sed 's/^_//')
+    if [ $opt_incl = yes ]
+    then
+        case "$i" in
+        (*_INCLUDED)
+            : OK;;
+        (*)
+            i="${i}_INCLUDED";;
+        esac
+    fi
+    if [ $opt_md5 = yes ]
+    then
+        tmp=$(mktemp ./hdrgrd.XXXXXXXX)
+        trap "rm -f $tmp; exit 1" 0 1 2 3 13 15 
+        echo "$i.$(date +"%Y%m%dT%H%M%S")" > "$tmp"
+        i=$(md5sum "$tmp" | sed  -E 'y/abcdef/ABCDEF/; s/(^.{8})(.{4})(.{4})(.{4})(.{12}) .*/GUARD_\1_\2_\3_\4_\5/gm;t;d')
+        rm -f "$tmp"
+        trap 0 1 2 3 13 15
+    fi
+    echo
+    echo "#ifndef $i"
+    echo "#define $i"
+    echo
+    echo "#endif /* $i */"
+    echo
+done
