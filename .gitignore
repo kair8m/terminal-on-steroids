@@ -6,3 +6,5 @@
 
 # core files for Makefile
 core
+
+get-pip.py
