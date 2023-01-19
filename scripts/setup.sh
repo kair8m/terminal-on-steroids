@@ -35,7 +35,7 @@ function setup_neovim() {
 function setup_on_linux() {
     echo "performing apt-get update && apt-get upgrade..."
     sudo apt-get update -yy > /dev/null
-    sudo apt-get install curl wget fzf ripgrep tmux make cmake g++ gcc bat build-essential zip unzip dpkg tmux fd-find -yy > /dev/null
+    sudo apt-get install curl wget fzf ripgrep tree tmux make cmake g++ gcc bat build-essential zip unzip dpkg tmux fd-find -yy > /dev/null
 
     cd /tmp/ || exit
 
