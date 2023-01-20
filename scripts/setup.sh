@@ -23,9 +23,11 @@ function setup_zsh() {
 function setup_neovim() {
     echo "Setting up neovim..."
     source "$HOME/.profile"
+    source "$HOME/.cargo/env"
     mkdir -p "$HOME/.config"
     NVIM_DIR=$(realpath "$SCRIPT_DIR/../nvim")
     cp -r "$NVIM_DIR" "$HOME/.config"
+    cargo install deno --locked
     # nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
     # nvim --headless -c 'autocmd User PackerComplete quitall' -c 'TSUpdate'
     # nvim --headless -c 'autocmd User PackerComplete quitall' -c 'TSUpdateSync'
@@ -40,6 +42,7 @@ function setup_on_linux() {
     cd /tmp/ || exit
 
     echo "Installing lazygit..."
+
 
     LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[0-9.]+')
     curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
@@ -73,6 +76,7 @@ case "$OSTYPE" in
 esac
 
 "$SCRIPT_DIR"/install_python.sh
+"$SCRIPT_DIR"/install_rust.sh
 "$SCRIPT_DIR"/install_node.sh
 "$SCRIPT_DIR"/install_neovim.sh
 
