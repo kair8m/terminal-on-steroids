@@ -8,7 +8,7 @@ function linux_install() {
     sudo sudo apt-get install software-properties-common -yy > /dev/null
     sudo add-apt-repository ppa:deadsnakes/ppa -yy > /dev/null
     sudo sudo apt-get update -yy > /dev/null
-    sudo sudo apt-get install python${PYTHON_VERSION} -yy > /dev/null
+    sudo sudo apt-get install python${PYTHON_VERSION} python${PYTHON_VERSION}-venv -yy > /dev/null
     wget https://bootstrap.pypa.io/get-pip.py
     python$PYTHON_VERSION get-pip.py
 
