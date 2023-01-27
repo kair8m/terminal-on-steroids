@@ -38,6 +38,7 @@ function setup_on_linux() {
     echo "performing apt-get update && apt-get upgrade..."
     sudo apt-get update -yy > /dev/null
     sudo apt-get install curl wget fzf ripgrep tree tmux make cmake g++ gcc bat build-essential zip unzip dpkg tmux fd-find sqlite3 libsqlite3-dev -yy > /dev/null
+    mkdir -p "$HOME/.local/share/nvim/databases/"
 
     cd /tmp/ || exit
 
