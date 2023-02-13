@@ -37,7 +37,7 @@ function setup_neovim() {
 function setup_on_linux() {
     echo "performing apt-get update && apt-get upgrade..."
     sudo apt-get update -yy > /dev/null
-    sudo apt-get install curl wget fzf ripgrep tree tmux make cmake g++ gcc bat build-essential zip unzip dpkg tmux fd-find sqlite3 libsqlite3-dev -yy > /dev/null
+    sudo apt-get install curl wget ripgrep tree tmux make cmake g++ gcc bat build-essential zip unzip dpkg tmux fd-find sqlite3 libsqlite3-dev -yy > /dev/null
     mkdir -p "$HOME/.local/share/nvim/databases/"
 
     cd /tmp/ || exit
@@ -60,20 +60,39 @@ function setup_on_linux() {
     sudo apt-get install zsh -yy > /dev/null
 
     mkdir -p "${HOME}"/.local/bin
-    
+
     ln -s "$(which batcat)" "${HOME}"/.local/bin/bat
     ln -s "$(which fdfind)" "${HOME}"/.local/bin/fd
 }
 
+function setup_fzf() {
+    echo "Installing fzf..."
+    git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME"/.fzf
+    "$HOME"/.fzf/install --all
+}
+
+function setup_cli_tools() {
+    source "$HOME/.cargo/env"
+    PATH="$PATH:$HOME/.cargo/bin:$HOME/.local/bin:$HOME/.gems/bin"
+    cargo install lsd --locked
+    cargo install bottom --locked
+    cargo install macchina --locked
+    cargo install zoxide --locked
+    # setup procs
+    cargo install procs --locked
+    mkdir -p "$HOME/.config"
+    cp -r "$DOTFILES_DIR/procs" "$HOME/.config"
+}
+
 case "$OSTYPE" in
-  linux*)   setup_on_linux ;;
-  darwin*)  echo "Mac OS" ;; 
-  win*)     echo "Windows" ;;
-  msys*)    echo "MSYS / MinGW / Git Bash" ;;
-  cygwin*)  echo "Cygwin" ;;
-  bsd*)     echo "BSD" ;;
-  solaris*) echo "Solaris" ;;
-  *)        echo "unknown: $OSTYPE" ;;
+    linux*)   setup_on_linux ;;
+    darwin*)  echo "Mac OS" ;; 
+    win*)     echo "Windows" ;;
+    msys*)    echo "MSYS / MinGW / Git Bash" ;;
+    cygwin*)  echo "Cygwin" ;;
+    bsd*)     echo "BSD" ;;
+    solaris*) echo "Solaris" ;;
+    *)        echo "unknown: $OSTYPE" ;;
 esac
 
 "$SCRIPT_DIR"/install_python.sh
@@ -82,4 +101,6 @@ esac
 "$SCRIPT_DIR"/install_neovim.sh
 
 setup_zsh
+setup_fzf
+setup_cli_tools
 setup_neovim
