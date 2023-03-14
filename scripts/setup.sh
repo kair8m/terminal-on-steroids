@@ -27,11 +27,8 @@ function setup_neovim() {
     mkdir -p "$HOME/.config"
     NVIM_DIR=$(realpath "$SCRIPT_DIR/../nvim")
     cp -r "$NVIM_DIR" "$HOME/.config"
-    cargo install deno --locked
-    # nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
-    # nvim --headless -c 'autocmd User PackerComplete quitall' -c 'TSUpdate'
-    # nvim --headless -c 'autocmd User PackerComplete quitall' -c 'TSUpdateSync'
-
+    #install deno
+    curl -fsSL https://deno.land/x/install/install.sh | sh
 }
 
 function setup_on_linux() {
